@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.may</groupId>
+    <artifactId>hibernate</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>hibernate</name>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.1.RELEASE</version>
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <spring.boot.mainclass>com.may.inheritance.mappedsuperclass.Application</spring.boot.mainclass>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>embeddable</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.embeddable.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>joined</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.joined.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>mappedsuperclass</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.mappedsuperclass.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>mappedsuperclass-one-to-many</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.mappedsuperclass.onetomany.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>mixed</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.mixed.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>singletable</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.singletable.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>singletableformula</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.singletable.singletableformula.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+        <profile>
+            <id>tableperclass</id>
+            <properties>
+                <spring.boot.mainclass>com.may.inheritance.tableperclass.Application</spring.boot.mainclass>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>${spring.boot.mainclass}</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
