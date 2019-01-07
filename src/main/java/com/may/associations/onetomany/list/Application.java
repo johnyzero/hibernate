@@ -30,6 +30,7 @@ public class Application {
     @Order(0)
     @Transactional
     public void execute(ApplicationReadyEvent event) {
+
         Item someItem = new Item("Some Item");
         em.persist(someItem);
 

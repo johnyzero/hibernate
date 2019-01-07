@@ -20,7 +20,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <spring.boot.mainclass>com.may.inheritance.mappedsuperclass.Application</spring.boot.mainclass>
+        <start-class>com.may.associations.onetomany.list.Application</start-class>
+        <!--<start-class>com.may.inheritance.embeddable.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.joined.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.mappedsuperclass.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.mappedsuperclass.onetomany.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.mixed.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.singletable.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.singletable.singletableformula.Application</start-class>-->
+        <!--<start-class>com.may.inheritance.tableperclass.Application</start-class>-->
     </properties>
 
     <dependencies>
@@ -47,72 +55,11 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>embeddable</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.embeddable.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>joined</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.joined.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>mappedsuperclass</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.mappedsuperclass.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>mappedsuperclass-one-to-many</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.mappedsuperclass.onetomany.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>mixed</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.mixed.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>singletable</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.singletable.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>singletableformula</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.singletable.singletableformula.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-        <profile>
-            <id>tableperclass</id>
-            <properties>
-                <spring.boot.mainclass>com.may.inheritance.tableperclass.Application</spring.boot.mainclass>
-            </properties>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>${spring.boot.mainclass}</mainClass>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
