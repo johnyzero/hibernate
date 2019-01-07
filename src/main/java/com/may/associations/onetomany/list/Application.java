@@ -2,6 +2,7 @@ package com.may.associations.onetomany.list;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,16 +35,16 @@ public class Application {
         Item someItem = new Item("Some Item");
         em.persist(someItem);
 
-        Bid someBid = new Bid(new BigDecimal("124.00"), someItem);
-        someItem.getBids().add(someBid);
-        someItem.getBids().add(someBid); // No persistent effect!
-        em.persist(someBid);
+        Bid bid1 = new Bid(new BigDecimal("124.00"), someItem);
+        someItem.getBids().add(bid1);
+        someItem.getBids().add(bid1); // No persistent effect! Be careful since next time after loading items you will have one null in Item.bids collection
+        em.persist(bid1);
 
-        Bid secondBid = new Bid(new BigDecimal("456.00"), someItem);
-        someItem.getBids().add(secondBid);
-        em.persist(secondBid);
+        Bid bid2 = new Bid(new BigDecimal("456.00"), someItem);
+        someItem.getBids().add(bid2);
+        em.persist(bid2);
 
-        assertThat(someItem.getBids().size(), is(2));
+        assertThat(someItem.getBids().size(), is(3)); // here 3
     }
 
     @EventListener
@@ -52,9 +53,10 @@ public class Application {
     public void execute2(ApplicationReadyEvent event) {
         Item item = em.find(Item.class, 1L);
         List<Bid> bids =  item.getBids();
-        assertThat(bids.size(), is(2));
-        assertThat(bids.get(0).getAmount().compareTo(new BigDecimal("124")), is(0));
-        assertThat(bids.get(1).getAmount().compareTo(new BigDecimal("456")), is(0));
+        assertThat(bids.size(), is(3)); // here 2 and one null
+        assertThat(bids.get(0), is(nullValue()));
+        assertThat(bids.get(1).getAmount().compareTo(new BigDecimal("124")), is(0));
+        assertThat(bids.get(2).getAmount().compareTo(new BigDecimal("456")), is(0));
     }
 
 }
