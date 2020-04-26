@@ -1,4 +1,4 @@
-package com.may.test.compositepk_onetomany_idclass;
+package com.may.compositepk.onetoone;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -7,21 +7,23 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ItemId implements Serializable {
+public class SharedPK implements Serializable {
 
-    private Long itemId;
+    @Column(name = "ITEM_ID")
+    private Long id;
 
+    @Column(name = "COUNTRY")
     private String country;
 
-    public ItemId() {
+    public SharedPK() {
     }
 
-    public ItemId(String country) {
+    public SharedPK(String country) {
         this.country = country;
     }
 
-    public ItemId(Long itemId, String country) {
-        this.itemId = itemId;
+    public SharedPK(Long id, String country) {
+        this.id = id;
         this.country = country;
     }
 
@@ -29,21 +31,22 @@ public class ItemId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return Objects.equals(itemId, ((ItemId)o).itemId) &&
-            Objects.equals(country, ((ItemId) o).country);
+        SharedPK itemId = (SharedPK) o;
+        return Objects.equals(id, itemId.id) &&
+            Objects.equals(country, itemId.country);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemId, country);
+        return Objects.hash(id, country);
     }
 
-    public Long getItemId() {
-        return itemId;
+    public Long getId() {
+        return id;
     }
 
-    public void setItemId(Long id) {
-        this.itemId = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCountry() {

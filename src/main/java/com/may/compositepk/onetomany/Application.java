@@ -1,7 +1,9 @@
-package com.may.test.compositepk_onetomany_idclass;
+package com.may.compositepk.onetomany;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,8 +31,8 @@ public class Application {
     public void execute(ApplicationReadyEvent event) {
         Item item = new Item();
         item.setName("itemName");
-        item.setItemId(1L);
-        item.setCountry("USA");
+        ItemId id = new ItemId(1L, "USA");
+        item.setId(id);
 
         em.persist(item);
 
@@ -49,8 +51,8 @@ public class Application {
         Item item = em.find(Item.class, new ItemId(1L, "USA"));
         assertThat(item.getBids().size(), is(1));
         assertThat(item.getBids().iterator().next().getName(), is("bidName"));
-        assertThat(item.getBids().iterator().next().getBidItemId(), is(item.getItemId()));
-        assertThat(item.getBids().iterator().next().getBidCountry(), is(item.getCountry()));
+        assertThat(item.getBids().iterator().next().getBidItemId(), is(item.getId().getItemId()));
+        assertThat(item.getBids().iterator().next().getBidCountry(), is(item.getId().getCountry()));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.may.test.compositepk_onetomany;
+package com.may.compositepk.onetomany;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

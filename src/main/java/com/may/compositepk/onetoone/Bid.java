@@ -1,4 +1,4 @@
-package com.may.test.compositepk_onetoone;
+package com.may.compositepk.onetoone;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;

@@ -1,18 +1,15 @@
-package com.may.test.compositepk_onetomany;
+package com.may.compositepk.onetomany_idclass;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class ItemId implements Serializable {
 
-    @Column(name = "ITEM_ID")
     private Long itemId;
 
-    @Column(name = "COUNTRY")
     private String country;
 
     public ItemId() {
@@ -31,9 +28,8 @@ public class ItemId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ItemId itemId = (ItemId) o;
-        return Objects.equals(itemId, itemId.itemId) &&
-            Objects.equals(country, itemId.country);
+        return Objects.equals(itemId, ((ItemId)o).itemId) &&
+            Objects.equals(country, ((ItemId) o).country);
     }
 
     @Override

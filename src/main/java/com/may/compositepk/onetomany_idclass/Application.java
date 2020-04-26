@@ -1,9 +1,7 @@
-package com.may.test.compositepk_onetoone;
+package com.may.compositepk.onetomany_idclass;
 
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,15 +29,15 @@ public class Application {
     public void execute(ApplicationReadyEvent event) {
         Item item = new Item();
         item.setName("itemName");
-        SharedPK id = new SharedPK(1L, "USA");
-        item.setId(id);
+        item.setItemId(1L);
+        item.setCountry("USA");
 
         em.persist(item);
 
         Bid bid = new Bid();
-        bid.setId(id);
         bid.setName("bidName");
         bid.setItem(item); // link
+        item.getBids().add(bid); // link
 
         em.persist(bid);
     }
@@ -48,12 +46,11 @@ public class Application {
     @Order(1)
     @Transactional
     public void execute2(ApplicationReadyEvent event) {
-        Bid bid = em.find(Bid.class, new SharedPK(1L, "USA"));
-        assertThat(bid.getItem(), is(not(nullValue())));
-        assertThat(bid.getItem().getId(), is(not(nullValue())));
-        assertThat(bid.getItem().getId(), is(bid.getId()));
-        assertThat(bid.getItem().getId().getCountry(), is("USA"));
-        assertThat(bid.getItem().getName(), is("itemName"));
+        Item item = em.find(Item.class, new ItemId(1L, "USA"));
+        assertThat(item.getBids().size(), is(1));
+        assertThat(item.getBids().iterator().next().getName(), is("bidName"));
+        assertThat(item.getBids().iterator().next().getBidItemId(), is(item.getItemId()));
+        assertThat(item.getBids().iterator().next().getBidCountry(), is(item.getCountry()));
     }
 
 }

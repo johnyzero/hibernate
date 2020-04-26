@@ -1,4 +1,4 @@
-package com.may.test.compositepk_onetomany;
+package com.may.compositepk.onetomany;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Version;
 
 @Entity
 public class Item {

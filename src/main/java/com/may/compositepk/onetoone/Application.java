@@ -1,4 +1,4 @@
-package com.may.test.compositepk_onetomany;
+package com.may.compositepk.onetoone;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,15 +31,15 @@ public class Application {
     public void execute(ApplicationReadyEvent event) {
         Item item = new Item();
         item.setName("itemName");
-        ItemId id = new ItemId(1L, "USA");
+        SharedPK id = new SharedPK(1L, "USA");
         item.setId(id);
 
         em.persist(item);
 
         Bid bid = new Bid();
+        bid.setId(id);
         bid.setName("bidName");
         bid.setItem(item); // link
-        item.getBids().add(bid); // link
 
         em.persist(bid);
     }
@@ -48,11 +48,12 @@ public class Application {
     @Order(1)
     @Transactional
     public void execute2(ApplicationReadyEvent event) {
-        Item item = em.find(Item.class, new ItemId(1L, "USA"));
-        assertThat(item.getBids().size(), is(1));
-        assertThat(item.getBids().iterator().next().getName(), is("bidName"));
-        assertThat(item.getBids().iterator().next().getBidItemId(), is(item.getId().getItemId()));
-        assertThat(item.getBids().iterator().next().getBidCountry(), is(item.getId().getCountry()));
+        Bid bid = em.find(Bid.class, new SharedPK(1L, "USA"));
+        assertThat(bid.getItem(), is(not(nullValue())));
+        assertThat(bid.getItem().getId(), is(not(nullValue())));
+        assertThat(bid.getItem().getId(), is(bid.getId()));
+        assertThat(bid.getItem().getId().getCountry(), is("USA"));
+        assertThat(bid.getItem().getName(), is("itemName"));
     }
 
 }
