@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd" monitoring="on">
+
+    <!-- Default Cache configuration. These will applied to caches programmatically created through the CacheManager or those without a <cache>
+     section below. Note that for RMI replication caches must be defined explicitly. -->
+    <defaultCache maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="7200" timeToLiveSeconds="7200" overflowToDisk="false"></defaultCache>
+
+<!--    <cache name="com.may.test.ehcache.Item" maxElementsInMemory="1000" eternal="true" overflowToDisk="false" statistics="true"/>-->
+
+    <cache name="item_query_cache" maxElementsInMemory="1000" eternal="true" overflowToDisk="false" statistics="true"/>
+
+</ehcache>
