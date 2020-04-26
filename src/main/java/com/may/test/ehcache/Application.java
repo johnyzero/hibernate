@@ -1,5 +1,8 @@
 package com.may.test.ehcache;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,11 +14,13 @@ import org.hibernate.cache.internal.EnabledCaching;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
+@Import(EntityManagerConfiguration.class)
 public class Application {
 
     @PersistenceContext
@@ -46,16 +51,16 @@ public class Application {
     @Transactional
     public void execute2(ApplicationReadyEvent event) {
         Cache cache = em.getEntityManagerFactory().getCache().unwrap(org.hibernate.Cache.class);
-        cache.containsQuery("item_query_cache"); // whether contains query cache region
+        assertThat(cache.containsQuery("item_query_cache"), is(false));
         List<Item> items = em.createNamedQuery("item_named_query", Item.class).getResultList();
+        assertThat(cache.containsQuery("item_query_cache"), is(true));
     }
 
     @EventListener
     @Order(2)
     @Transactional
     public void execute3(ApplicationReadyEvent event) {
-        List<Item> items = em.createNamedQuery("item_named_query", Item.class).getResultList();
         Cache cache = em.getEntityManagerFactory().getCache().unwrap(org.hibernate.Cache.class);
-        cache.containsQuery("item_query_cache");
+        assertThat(cache.containsQuery("item_query_cache"), is(true));
     }
 }
