@@ -10,6 +10,8 @@ import org.hibernate.action.spi.BeforeTransactionCompletionProcess;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.internal.SessionImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootApplication
 public class Application {
+
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -35,14 +39,14 @@ public class Application {
         em.unwrap(SessionImpl.class).getActionQueue().registerProcess(new BeforeTransactionCompletionProcess() {
             @Override
             public void doBeforeTransactionCompletion(SessionImplementor session) {
-                System.out.println("before transaction cleanup");
+                logger.info("before transaction cleanup");
             }
         });
 
         em.unwrap(SessionImpl.class).getActionQueue().registerProcess(new AfterTransactionCompletionProcess() {
             @Override
             public void doAfterTransactionCompletion(boolean success, SharedSessionContractImplementor session) {
-                System.out.println("after transaction cleanup");
+                logger.info("after transaction cleanup");
             }
         });
 
